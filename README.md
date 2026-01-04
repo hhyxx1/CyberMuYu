@@ -174,12 +174,12 @@ MIT License
 ## 联系方式
 
 如果您有任何问题或建议，欢迎联系我：
-- 邮箱：your-email@example.com
+- 邮箱：f24011422@st.sandau.edu.cn
 - GitHub：https://github.com/hhyxx1/CyberMuYu
 
 ---
 
 **项目名称**：CyberMuYu - 赛博风格电子木鱼
-**开发人员**：计算机科学与技术专业 大二学生
+**开发人员**：侯宇轩
 **开发时间**：2026 年 1 月
 **课程**：人工智能选修课

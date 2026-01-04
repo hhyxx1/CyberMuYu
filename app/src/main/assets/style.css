@@ -678,12 +678,14 @@ h1 {
 @media (min-width: 769px) and (orientation: landscape) {
     /* 移除最大宽度限制，充分利用屏幕宽度 */
     .controls {
-        gap: 30px;
-        padding: 40px 20px;
+        gap: 20px;
+        padding: 20px;
         max-width: 100%;
         width: 100%;
-        justify-content: space-around;
-        align-items: flex-start;
+        max-height: 60vh; /* 限制最大高度为视口高度的60% */
+        overflow-y: auto; /* 添加垂直滚动 */
+        justify-content: center; /* 改为居中对齐，避免space-around导致的布局问题 */
+        align-items: center; /* 改为居中对齐 */
         flex-wrap: wrap;
     }
     
@@ -698,13 +700,13 @@ h1 {
         align-items: center;
         gap: 15px;
         margin: 10px;
-        padding: 20px;
+        padding: 15px; /* 减少内边距 */
         background: rgba(255, 255, 255, 0.05);
         border-radius: 15px;
         border: 1px solid rgba(var(--primary-color-rgb), 0.3);
-        min-width: 250px;
-        flex: 1;
-        max-width: 400px;
+        min-width: 220px; /* 减少最小宽度 */
+        flex: 0 0 auto; /* 改为不伸缩，固定尺寸 */
+        max-width: 350px; /* 减少最大宽度 */
     }
     
     /* 调整每个选择器内部的布局 */
@@ -717,18 +719,18 @@ h1 {
         margin-bottom: 5px;
     }
     
-    /* 增大按钮尺寸 */
+    /* 调整按钮尺寸，避免过大 */
     .control-btn {
-        padding: 18px 36px;
-        font-size: 22px;
-        min-width: 200px;
+        padding: 14px 28px; /* 减少内边距 */
+        font-size: 18px; /* 减小字体大小 */
+        min-width: 180px; /* 减少最小宽度 */
     }
     
-    /* 增大选择框尺寸 */
+    /* 调整选择框尺寸，避免过大 */
     select {
-        padding: 15px 24px;
-        font-size: 20px;
-        min-width: 200px;
+        padding: 12px 20px; /* 减少内边距 */
+        font-size: 16px; /* 减小字体大小 */
+        min-width: 180px; /* 减少最小宽度 */
     }
     
     /* 增大音量滑块 */

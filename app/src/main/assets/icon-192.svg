@@ -1,20 +1,58 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" fill="none">
-  <!-- 木鱼主体 -->
-  <rect x="48" y="64" width="96" height="64" rx="8" fill="#FFFFFF" stroke="#000000" stroke-width="4"/>
-  <!-- 木鱼顶部装饰 -->
-  <rect x="64" y="48" width="64" height="16" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="4"/>
-  <!-- 木鱼底部装饰 -->
-  <rect x="64" y="128" width="64" height="8" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="4"/>
-  <!-- 木鱼纹理 -->
-  <rect x="56" y="80" width="8" height="32" fill="#E0E0E0"/>
-  <rect x="128" y="80" width="8" height="32" fill="#E0E0E0"/>
-  <line x1="80" y1="80" x2="80" y2="112" stroke="#E0E0E0" stroke-width="4"/>
-  <line x1="112" y1="80" x2="112" y2="112" stroke="#E0E0E0" stroke-width="4"/>
-  <!-- 像素风格装饰点 -->
-  <rect x="72" y="72" width="4" height="4" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
-  <rect x="88" y="72" width="4" height="4" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
-  <rect x="104" y="72" width="4" height="4" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
-  <rect x="72" y="120" width="4" height="4" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
-  <rect x="88" y="120" width="4" height="4" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
-  <rect x="104" y="120" width="4" height="4" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <!-- 赛博风格木鱼主体 -->
+  <defs>
+    <!-- 赛博朋克渐变 -->
+    <linearGradient id="cyberGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff41;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00ffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff00ff;stop-opacity:1" />
+    </linearGradient>
+    <!-- 内阴影滤镜 -->
+    <filter id="innerShadow">
+      <feOffset dx="-2" dy="-2" result="offsetOut"/>
+      <feGaussianBlur stdDeviation="4" result="blurOut"/>
+      <feBlend in="SourceGraphic" in2="blurOut" mode="multiply"/>
+    </filter>
+  </defs>
+  
+  <!-- 木鱼主体，带发光效果 -->
+  <path d="M96 20C58.3 20 30 48.3 30 86c0 18 8.5 34.2 21.8 45.2L54 156h84l2.2-24.8C153.5 120.2 162 104 162 86c0-37.7-28.3-66-66-66z" 
+        fill="url(#cyberGradient)" 
+        stroke="#00ff41" 
+        stroke-width="4" 
+        filter="url(#innerShadow)"/>
+  
+  <!-- 外发光效果 -->
+  <path d="M96 20C58.3 20 30 48.3 30 86c0 18 8.5 34.2 21.8 45.2L54 156h84l2.2-24.8C153.5 120.2 162 104 162 86c0-37.7-28.3-66-66-66z" 
+        fill="none" 
+        stroke="#00ff41" 
+        stroke-width="8" 
+        opacity="0.3" 
+        filter="blur(5px)"/>
+  
+  <!-- 木鱼眼睛 -->
+  <circle cx="80" cy="70" r="10" fill="#000" 
+          stroke="#00ff41" 
+          stroke-width="2" 
+          filter="drop-shadow(0 0 8px #00ff41)"/>
+  <circle cx="112" cy="70" r="10" fill="#000" 
+          stroke="#00ff41" 
+          stroke-width="2" 
+          filter="drop-shadow(0 0 8px #00ff41)"/>
+  
+  <!-- 眼睛高光 -->
+  <circle cx="84" cy="66" r="4" fill="#00ff41" opacity="0.8"/>
+  <circle cx="116" cy="66" r="4" fill="#00ff41" opacity="0.8"/>
+  
+  <!-- 赛博纹理 - 网格线 -->
+  <path d="M70 40L122 112" 
+        fill="none" 
+        stroke="#00ffff" 
+        stroke-width="1" 
+        opacity="0.5"/>
+  <path d="M122 40L70 112" 
+        fill="none" 
+        stroke="#ff00ff" 
+        stroke-width="1" 
+        opacity="0.5"/>
 </svg>

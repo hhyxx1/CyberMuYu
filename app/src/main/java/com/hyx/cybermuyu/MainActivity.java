@@ -3,6 +3,7 @@ package com.hyx.cybermuyu;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.AudioManager;
@@ -584,11 +585,11 @@ public class MainActivity extends Activity {
         
         if (isTablet) {
             // 平板设备，允许旋转为横屏
-            setRequestedOrientation(Configuration.ORIENTATION_UNSPECIFIED);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             System.out.println("设备为平板，允许旋转为横屏");
         } else {
             // 手机设备，禁止旋转为横屏，固定为竖屏
-            setRequestedOrientation(Configuration.ORIENTATION_PORTRAIT);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             System.out.println("设备为手机，禁止旋转为横屏");
         }
     }

@@ -9,8 +9,6 @@ class CyberMuYu {
 
     init() {
         try {
-            console.log('Initializing CyberMuYu app...');
-            
             // 获取DOM元素
             this.counterElement = document.querySelector('.counter');
             this.fishElement = document.getElementById('fish');
@@ -22,18 +20,6 @@ class CyberMuYu {
             this.whiteNoiseToggleBtn = document.getElementById('whiteNoiseToggle');
             this.customMusicBtn = document.getElementById('customMusicBtn');
             this.restoreDefaultMusicBtn = document.getElementById('restoreDefaultMusicBtn');
-            
-            // 调试：检查关键元素是否存在
-            console.log('DOM元素获取结果:');
-            console.log('counterElement:', this.counterElement);
-            console.log('fishElement:', this.fishElement);
-            console.log('rippleContainer:', this.rippleContainer);
-            console.log('particleContainer:', this.particleContainer);
-            console.log('soundSelectElement:', this.soundSelectElement);
-            console.log('themeSelectElement:', this.themeSelectElement);
-            console.log('whiteNoiseToggleBtn:', this.whiteNoiseToggleBtn);
-            console.log('customMusicBtn:', this.customMusicBtn);
-            console.log('restoreDefaultMusicBtn:', this.restoreDefaultMusicBtn);
             this.breathModeBtn = document.getElementById('breathMode');
             this.achievementsBtn = document.getElementById('achievementsBtn');
             this.achievementsPanel = document.getElementById('achievementsPanel');
@@ -45,8 +31,6 @@ class CyberMuYu {
             this.customDurationBtn = document.getElementById('customDurationBtn');
             this.consecutiveCountElement = document.getElementById('consecutiveCount');
             this.todayCountElement = document.getElementById('todayCount');
-            
-            console.log('DOM elements loaded successfully');
             
             // 初始化状态变量
             this.isLongPress = false;
@@ -84,15 +68,11 @@ class CyberMuYu {
             // 从本地存储加载成就统计数据
             this.loadAchievementStats();
             
-            console.log('State variables initialized');
-            
             // 初始化成就系统
             this.initAchievements();
             
             // 初始化统计数据
             this.initStats();
-            
-
             
             // 添加事件监听器，只在元素存在时添加
             if (this.fishElement) {
@@ -171,16 +151,8 @@ class CyberMuYu {
             // 初始化主题和木鱼样式
             this.handleThemeChange({ target: { value: 'cyber' } });
             this.handleFishStyleChange({ target: { value: 'cyber' } });
-            
-            console.log('CyberMuYu app initialized successfully!');
         } catch (error) {
             console.error('Error during initialization:', error);
-            console.error('Error details:', {
-                message: error.message,
-                stack: error.stack,
-                line: error.lineNumber,
-                column: error.columnNumber
-            });
         }
     }
 
@@ -349,8 +321,22 @@ class CyberMuYu {
                 // 使用gamma和beta值来控制星空移动
                 // gamma: 左右倾斜 (-90到90度)
                 // beta: 前后倾斜 (-180到180度)
-                this.deviceMotionX = e.gamma || 0;
-                this.deviceMotionY = e.beta || 0;
+                
+                // 获取屏幕方向
+                const orientation = window.screen.orientation || window.orientation;
+                const isLandscape = orientation.type ? orientation.type.includes('landscape') : (Math.abs(orientation) === 90);
+                
+                let motionX = e.gamma || 0;
+                let motionY = e.beta || 0;
+                
+                // 平板横屏时，交换x和y轴
+                if (isLandscape) {
+                    // 横屏时，gamma控制上下，beta控制左右，所以交换并调整方向
+                    [motionX, motionY] = [motionY, -motionX];
+                }
+                
+                this.deviceMotionX = motionX;
+                this.deviceMotionY = motionY;
             };
             
             window.addEventListener('deviceorientation', handleDeviceOrientation);
@@ -683,9 +669,6 @@ class CyberMuYu {
         // 如果有自定义音乐，使用自定义音乐
         if (this.customMusicUri) {
             audioSrc = this.customMusicUri;
-            console.log('使用自定义音乐:', audioSrc);
-        } else {
-            console.log('使用默认白噪音');
         }
         
         this.whiteNoiseAudio = new Audio(audioSrc);
@@ -694,59 +677,34 @@ class CyberMuYu {
         this.whiteNoiseAudio.volume = 1.0;
         this.whiteNoiseAudio.preload = 'auto';
         
-        // 监听音频加载完成事件，获取真实时长
-        this.whiteNoiseAudio.addEventListener('loadedmetadata', () => {
-            // 获取音频的真实时长
+        // 获取并通知音频时长的辅助函数
+        const notifyDuration = () => {
             let duration = this.whiteNoiseAudio.duration;
-            console.log('音频加载完成，真实时长:', duration);
-            
             // 确保获取到有效的时长
             if (isNaN(duration) || duration <= 0) {
                 duration = 5299; // 默认1小时28分19秒
-                console.log('时长无效，使用默认值:', duration);
             }
             
             // 通知Android端音频时长
             if (window.AndroidWhiteNoiseInterface) {
                 try {
-                    console.log('通知Android端时长:', duration);
                     window.AndroidWhiteNoiseInterface.onWhiteNoiseDurationChanged(duration);
                 } catch (error) {
                     console.error('Error calling Android interface:', error);
                 }
             }
-        });
+        };
+        
+        // 监听音频加载完成事件，获取真实时长
+        this.whiteNoiseAudio.addEventListener('loadedmetadata', notifyDuration);
         
         // 监听play事件，确保在播放开始时再次通知时长
-        this.whiteNoiseAudio.addEventListener('play', () => {
-            let duration = this.whiteNoiseAudio.duration;
-            if (isNaN(duration) || duration <= 0) {
-                duration = 5299; // 默认1小时28分19秒
-            }
-            console.log('播放开始，通知Android端时长:', duration);
-            if (window.AndroidWhiteNoiseInterface) {
-                try {
-                    window.AndroidWhiteNoiseInterface.onWhiteNoiseDurationChanged(duration);
-                } catch (error) {
-                    console.error('Error calling Android interface:', error);
-                }
-            }
-        });
+        this.whiteNoiseAudio.addEventListener('play', notifyDuration);
         
         // 监听播放进度变化
         this.whiteNoiseAudio.addEventListener('timeupdate', () => {
             let currentTime = this.whiteNoiseAudio.currentTime;
-            let duration = this.whiteNoiseAudio.duration;
             
-            // 确保获取到有效的时长
-            if (isNaN(duration) || duration <= 0) {
-                duration = 5299; // 默认1小时28分19秒
-            }
-            
-            // 循环播放时，不需要检查currentTime是否超过duration
-            // 因为loop属性会自动处理循环
-            
-            console.log('当前播放时间:', currentTime, '/', duration);
             // 通知Android端当前播放位置
             if (window.AndroidWhiteNoiseInterface) {
                 try {
@@ -756,9 +714,6 @@ class CyberMuYu {
                 }
             }
         });
-        
-        // 监听ended事件，循环播放时ended事件可能不会触发
-        // 如果触发，不需要做任何事情，因为loop=true会自动循环
         
         // 立即通知当前播放位置（初始值）
         if (window.AndroidWhiteNoiseInterface) {

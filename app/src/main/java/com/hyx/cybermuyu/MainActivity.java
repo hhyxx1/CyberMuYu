@@ -3,6 +3,8 @@ package com.hyx.cybermuyu;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaMetadata;
 import android.media.session.MediaSession;
@@ -46,6 +48,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // 根据设备类型设置屏幕方向
+        setScreenOrientationBasedOnDevice();
         
         // 设置全屏模式
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -568,6 +573,37 @@ public class MainActivity extends Activity {
                 }
             });
         }
+    }
+    
+    /**
+     * 根据设备类型设置屏幕方向
+     */
+    private void setScreenOrientationBasedOnDevice() {
+        // 检测设备是否为平板
+        boolean isTablet = isTabletDevice();
+        
+        if (isTablet) {
+            // 平板设备，允许旋转为横屏
+            setRequestedOrientation(Configuration.ORIENTATION_UNSPECIFIED);
+            System.out.println("设备为平板，允许旋转为横屏");
+        } else {
+            // 手机设备，禁止旋转为横屏，固定为竖屏
+            setRequestedOrientation(Configuration.ORIENTATION_PORTRAIT);
+            System.out.println("设备为手机，禁止旋转为横屏");
+        }
+    }
+    
+    /**
+     * 检测设备是否为平板
+     * @return true if the device is a tablet, false otherwise
+     */
+    private boolean isTabletDevice() {
+        // 方法1：根据屏幕尺寸判断
+        // 平板设备的最小宽度通常大于600dp
+        Resources resources = getResources();
+        Configuration config = resources.getConfiguration();
+        int screenLayout = config.screenLayout;
+        return (screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
     
     /**

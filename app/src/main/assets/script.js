@@ -1375,10 +1375,19 @@ class CyberMuYu {
 
     // 触发振动反馈（移动端）
     triggerVibration() {
-        // 检查设备是否支持振动API
-        if ('vibrate' in navigator) {
-            // 触发短振动
-            navigator.vibrate(30); // 振动30毫秒
+        // 优先使用Android原生振动接口
+        if (typeof AndroidVibrationInterface !== 'undefined') {
+            try {
+                AndroidVibrationInterface.vibrate(110); // 调用Android振动接口，110毫秒
+            } catch (e) {
+                console.error('Android振动接口调用失败:', e);
+            }
+        } 
+        // Web振动API作为备选
+        else if ('vibrate' in navigator) {
+            navigator.vibrate(110); // 110毫秒震动
+        } else if ('webkitVibrate' in navigator) {
+            navigator.webkitVibrate(110); // Safari兼容
         }
     }
 
@@ -1452,6 +1461,8 @@ class CyberMuYu {
         this.updateCounter();
         this.createRipple(x, y);
         this.createParticles(x, y);
+        
+        // 触发震动反馈（已包含双重保障）
         this.triggerVibration();
     }
 
@@ -1528,6 +1539,7 @@ class CyberMuYu {
             this.updateCounter();
             this.createRipple(x, y);
             this.createParticles(x, y);
+            this.triggerVibration();
         }, 150);
     }
 

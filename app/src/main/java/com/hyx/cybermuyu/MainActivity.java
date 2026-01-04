@@ -74,6 +74,9 @@ public class MainActivity extends Activity {
         // 设置JavaScript接口，用于显示原生Toast提示
         webView.addJavascriptInterface(new NotificationInterface(), "AndroidNotificationInterface");
         
+        // 设置JavaScript接口，用于触发振动
+        webView.addJavascriptInterface(new VibrationInterface(), "AndroidVibrationInterface");
+        
         webView.loadUrl("file:///android_asset/index.html");
         
         // 初始化MediaSession
@@ -621,6 +624,97 @@ public class MainActivity extends Activity {
                     if (!isFinishing() && !isDestroyed()) {
                         // 显示Toast提示
                         Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+    
+    /**
+     * JavaScript接口，用于触发Android设备振动
+     */
+    private class VibrationInterface {
+        @android.webkit.JavascriptInterface
+        public void vibrate(long milliseconds) {
+            System.out.println("Android振动接口被调用，时长: " + milliseconds + "ms");
+            // 确保在UI线程中执行振动
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("在UI线程中执行振动");
+                    // 检查Activity是否还存在
+                    if (!isFinishing() && !isDestroyed()) {
+                        System.out.println("Activity状态正常");
+                        // 获取振动服务
+                        android.os.Vibrator vibrator = (android.os.Vibrator) getSystemService(VIBRATOR_SERVICE);
+                        System.out.println("振动服务获取结果: " + (vibrator != null ? "成功" : "失败"));
+                        if (vibrator != null) {
+                            // 检查设备是否支持振动
+                            boolean hasVibrator = vibrator.hasVibrator();
+                            System.out.println("设备是否支持振动: " + hasVibrator);
+                            if (hasVibrator) {
+                                // 触发振动，兼容不同Android版本
+                                System.out.println("开始执行振动，时长: " + milliseconds + "ms");
+                                try {
+                                    // 检查Android版本
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        // Android 26+ 使用VibrateEffect
+                                        System.out.println("使用Android 26+ VibrateEffect API");
+                                        android.os.VibrationEffect effect = android.os.VibrationEffect.createOneShot(milliseconds, android.os.VibrationEffect.DEFAULT_AMPLITUDE);
+                                        vibrator.vibrate(effect);
+                                    } else {
+                                        // Android 25及以下 使用旧API
+                                        System.out.println("使用Android 25- 旧振动API");
+                                        vibrator.vibrate(milliseconds);
+                                    }
+                                    System.out.println("振动执行完成");
+                                } catch (Exception e) {
+                                    System.err.println("振动执行失败: " + e.getMessage());
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        @android.webkit.JavascriptInterface
+        public void vibratePattern(long[] pattern, int repeat) {
+            // 确保在UI线程中执行振动
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // 检查Activity是否还存在
+                    if (!isFinishing() && !isDestroyed()) {
+                        // 获取振动服务
+                        android.os.Vibrator vibrator = (android.os.Vibrator) getSystemService(VIBRATOR_SERVICE);
+                        if (vibrator != null) {
+                            // 检查设备是否支持振动
+                            if (vibrator.hasVibrator()) {
+                                // 触发振动模式
+                                vibrator.vibrate(pattern, repeat);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        @android.webkit.JavascriptInterface
+        public void cancelVibration() {
+            // 确保在UI线程中执行振动取消
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // 检查Activity是否还存在
+                    if (!isFinishing() && !isDestroyed()) {
+                        // 获取振动服务
+                        android.os.Vibrator vibrator = (android.os.Vibrator) getSystemService(VIBRATOR_SERVICE);
+                        if (vibrator != null) {
+                            // 取消所有振动
+                            vibrator.cancel();
+                        }
                     }
                 }
             });

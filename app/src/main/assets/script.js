@@ -45,6 +45,7 @@ class CyberMuYu {
             this.meditationDuration = 300; // 默认5分钟
             this.consecutiveCount = 0;
             this.consecutiveTimer = null;
+            this.triggeredComboLevels = []; // 已触发的连击等级列表
             this.isWhiteNoisePlaying = false;
             this.whiteNoiseAudio = null;
             this.customMusicUri = null; // 自定义音乐文件URI
@@ -1436,6 +1437,11 @@ class CyberMuYu {
     }
 
     handleClick(e) {
+        // 如果是长按，不执行点击效果
+        if (this.isLongPress) {
+            return;
+        }
+        
         // 获取正确的点击坐标，同时支持鼠标和触摸事件
         let x, y;
         if (e.touches && e.touches.length > 0) {
@@ -1464,6 +1470,28 @@ class CyberMuYu {
         
         // 触发震动反馈（已包含双重保障）
         this.triggerVibration();
+        
+        // 创建并触发"功德+1"文字动画
+        this.createMeritText(x, y);
+    }
+    
+    // 创建"功德+1"文字动画
+    createMeritText(x, y) {
+        const meritText = document.createElement('div');
+        meritText.className = 'merit-text';
+        meritText.textContent = '功德+1';
+        
+        // 设置文字位置为点击坐标
+        meritText.style.left = `${x}px`;
+        meritText.style.top = `${y}px`;
+        
+        // 添加到文档中
+        document.body.appendChild(meritText);
+        
+        // 动画结束后移除元素，避免内存泄漏
+        setTimeout(() => {
+            meritText.remove();
+        }, 1800); // 与CSS动画时长保持一致
     }
 
     handleKeyPress(e) {
@@ -1540,6 +1568,7 @@ class CyberMuYu {
             this.createRipple(x, y);
             this.createParticles(x, y);
             this.triggerVibration();
+            this.createMeritText(x, y);
         }, 150);
     }
 
@@ -1798,17 +1827,21 @@ class CyberMuYu {
     resetConsecutiveCount() {
         this.consecutiveCount = 0;
         this.consecutiveCountElement.textContent = this.consecutiveCount;
+        this.triggeredComboLevels = []; // 清空已触发的连击等级列表
     }
 
     // 检查连击特效
     checkComboEffect() {
         const comboLevels = [10, 25, 50, 100];
-        const comboLevel = comboLevels.find(level => this.consecutiveCount === level);
         
-        if (comboLevel) {
-            this.createComboEffect(comboLevel);
-            this.playComboSound(comboLevel);
-        }
+        // 检查每个连击等级，确保只触发一次
+        comboLevels.forEach(level => {
+            if (this.consecutiveCount >= level && !this.triggeredComboLevels.includes(level)) {
+                this.triggeredComboLevels.push(level);
+                this.createComboEffect(level);
+                this.playComboSound(level);
+            }
+        });
     }
 
     // 创建连击特效

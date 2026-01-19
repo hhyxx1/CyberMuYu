@@ -7,25 +7,25 @@
     <meta name="keywords" content="赛博木鱼, CyberMuYu, 解压, 冥想, 呼吸引导">
     <title>CyberMuYu - 解压神器</title>
     <link rel="stylesheet" href="style.css">
-    
+
     <!-- PWA 相关配置 -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="color-scheme" content="dark">
-    
+
     <!-- iOS 支持 -->
     <link rel="apple-touch-icon" href="icon-192.svg">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="赛博木鱼">
     <meta name="format-detection" content="telephone=no, email=no">
-    
+
     <!-- 其他浏览器支持 -->
     <link rel="icon" href="icon-192.svg" type="image/svg+xml">
     <meta name="msapplication-TileColor" content="#000000">
     <meta name="msapplication-TileImage" content="icon-192.svg">
-    
+
     <!-- 社交分享支持 -->
     <meta property="og:title" content="CyberMuYu - 赛博木鱼">
     <meta property="og:description" content="赛博风格电子木鱼，解压神器">
@@ -34,104 +34,159 @@
     <meta property="og:url" content="./index.html">
 </head>
 <body>
-    <div class="container">
-        <h1>CyberMuYu</h1>
-        <div class="counter">0</div>
-        <div class="stats">
-            <div class="stat-item">
-                <span class="stat-label">连续点击：</span>
-                <span class="stat-value" id="consecutiveCount">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">今日次数：</span>
-                <span class="stat-value" id="todayCount">0</span>
-            </div>
-        </div>
-        <div class="fish-container">
-            <div class="fish" id="fish">
-                <div class="fish-body"></div>
-                <div class="fish-eye"></div>
-            </div>
-        </div>
-        <div class="controls">
-            <div class="sound-selector">
-                <label for="soundType">音效选择：</label>
-                <select id="soundType">
-                    <option value="wood">木鱼</option>
-                    <option value="bell">铃铛</option>
-                    <option value="water">水滴</option>
-                    <option value="chime">风铃</option>
-                </select>
-            </div>
-            <div class="theme-selector">
-                <label for="theme">主题选择：</label>
-                <select id="theme">
-                    <option value="cyber">赛博朋克</option>
-                    <option value="pastel">柔和粉</option>
-                    <option value="ocean">深海蓝</option>
-                    <option value="sunset">日落橙</option>
-                </select>
-            </div>
-            <div class="fish-style-selector">
-                <label for="fishStyle">木鱼样式：</label>
-                <select id="fishStyle">
-                    <option value="cyber">赛博</option>
-                    <option value="traditional">传统</option>
-                    <option value="crystal">水晶</option>
-                    <option value="metal">金属</option>
-                    <option value="fire">火焰</option>
-                    <option value="ice">寒冰</option>
-                </select>
-            </div>
-            <div class="white-noise-control">
-                <div class="white-noise-header">
-                    <button id="whiteNoiseToggle" class="control-btn">白噪音</button>
-                    <button id="customMusicBtn" class="control-btn">自定义音乐</button>
-                    <button id="restoreDefaultMusicBtn" class="control-btn" style="display: none;">恢复默认音乐</button>
+    <!-- 页面内容区（可滚动） -->
+    <div class="page-content">
+        <div class="container">
+            <h1>CyberMuYu</h1>
+            <p>For 樊事诚 Edition</p>
+            <div class="counter">0</div>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">连续点击：</span>
+                    <span class="stat-value" id="consecutiveCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">今日次数：</span>
+                    <span class="stat-value" id="todayCount">0</span>
                 </div>
             </div>
-            <div class="breath-control">
-                <button id="breathMode" class="control-btn">呼吸引导</button>
+            <div class="fish-container">
+                <div class="fish" id="fish">
+                    <div class="fish-body"></div>
+                    <div class="fish-eye"></div>
+                </div>
+                <div class="speech-bubble" id="speechBubble">
+                    <div class="bubble-content">敲木鱼有惊喜哦</div>
+                    <button class="bubble-close" id="bubbleClose">&times;</button>
+                </div>
             </div>
-            <div class="achievements-control">
-                <button id="achievementsBtn" class="control-btn">成就</button>
-            </div>
-            <div class="meditation-control">
-                <label for="meditationDuration">冥想时长：</label>
-                <div class="duration-selector">
-                    <select id="meditationDuration" class="duration-preset">
-                        <option value="300">5分钟</option>
-                        <option value="600">10分钟</option>
-                        <option value="900">15分钟</option>
-                        <option value="custom">自定义</option>
+            <div class="controls">
+                <div class="sound-selector">
+                    <label for="soundType">音效选择：</label>
+                    <select id="soundType">
+                        <option value="wood">木鱼</option>
+                        <option value="bell">铃铛</option>
+                        <option value="water">水滴</option>
+                        <option value="chime">风铃</option>
                     </select>
-                    <button id="customDurationBtn" class="control-btn duration-custom" style="display: none;">选择时长</button>
                 </div>
-                <button id="meditationMode" class="control-btn">开始冥想</button>
+                <div class="theme-selector">
+                    <label for="theme">主题选择：</label>
+                    <select id="theme">
+                        <option value="cyber">赛博朋克</option>
+                        <option value="pastel">柔和粉</option>
+                        <option value="ocean">深海蓝</option>
+                        <option value="sunset">日落橙</option>
+                    </select>
+                </div>
+                <div class="fish-style-selector">
+                    <label for="fishStyle">木鱼样式：</label>
+                    <select id="fishStyle">
+                        <option value="cyber">赛博</option>
+                        <option value="traditional">传统</option>
+                        <option value="crystal">水晶</option>
+                        <option value="metal">金属</option>
+                        <option value="fire">火焰</option>
+                        <option value="ice">寒冰</option>
+                    </select>
+                </div>
+                <div class="white-noise-control">
+                    <div class="white-noise-header">
+                        <button id="whiteNoiseToggle" class="control-btn">白噪音</button>
+                        <button id="customMusicBtn" class="control-btn">自定义音乐</button>
+                        <button id="restoreDefaultMusicBtn" class="control-btn" style="display: none;">恢复默认音乐</button>
+                    </div>
+                </div>
+                <div class="breath-control">
+                    <button id="breathMode" class="control-btn">呼吸引导</button>
+                </div>
+                <div class="achievements-control">
+                    <button id="achievementsBtn" class="control-btn">成就</button>
+                </div>
+                <div class="vibration-control">
+                    <button id="vibrationToggle" class="control-btn">震动</button>
+                </div>
+                <div class="meditation-control">
+                    <label for="meditationDuration">冥想时长：</label>
+                    <div class="duration-selector">
+                        <select id="meditationDuration" class="duration-preset">
+                            <option value="300">5分钟</option>
+                            <option value="600">10分钟</option>
+                            <option value="900">15分钟</option>
+                            <option value="custom">自定义</option>
+                        </select>
+                        <button id="customDurationBtn" class="control-btn duration-custom" style="display: none;">选择时长</button>
+                    </div>
+                    <button id="meditationMode" class="control-btn">开始冥想</button>
+                </div>
             </div>
-        </div>
-        <!-- 成就面板 -->
-        <div class="achievements-panel" id="achievementsPanel">
-            <div>
-                <div class="achievements-header">
-                    <h2>成就列表</h2>
-                    <button class="achievements-close" id="achievementsClose">×</button>
-                </div>
-                <div class="achievements-content" id="achievementsContent">
-                    <!-- 成就列表将通过JavaScript动态生成 -->
+            <!-- 成就面板 -->
+            <div class="achievements-panel" id="achievementsPanel">
+                <div>
+                    <div class="achievements-header">
+                        <h2>成就列表</h2>
+                        <button class="achievements-close" id="achievementsClose">×</button>
+                    </div>
+                    <div class="achievements-content" id="achievementsContent">
+                        <!-- 成就列表将通过JavaScript动态生成 -->
+                    </div>
                 </div>
             </div>
+            <!-- 主题动态元素容器 -->
+            <div class="theme-elements" id="themeElements"></div>
         </div>
-        <!-- 主题动态元素容器 -->
-        <div class="theme-elements" id="themeElements"></div>
     </div>
     
     <!-- 点击效果容器 -->
     <div class="ripple-container" id="rippleContainer"></div>
     <div class="particle-container" id="particleContainer"></div>
-    
+
+    <!-- 小惊喜文字 -->
+    <div class="surprise-container">
+        <span id="surpriseText" class="surprise-text">小惊喜</span>
+    </div>
+
+    <!-- 音乐播放控件 -->
+    <div class="music-player">
+        <div class="select-music-container">
+            <span id="selectMusicText" class="select-music-text">选择音乐</span>
+        </div>
+        <div class="auto-play-container">
+            <button id="autoPlayToggle" class="auto-play-btn">自动播放：开</button>
+        </div>
+        <div class="music-info">
+            <span class="music-title">悔过诗-樊事诚</span>
+            <div class="music-time">
+                <span id="currentTime">0:00</span>
+                <span> / </span>
+                <span id="totalTime">0:00</span>
+            </div>
+        </div>
+        <div class="music-controls">
+            <button id="musicPlayPause" class="music-btn">▶</button>
+            <div class="music-progress-container">
+                <div class="music-progress" id="musicProgress"></div>
+            </div>
+            <button id="musicMute" class="music-btn">🔊</button>
+        </div>
+    </div>
+
+    <!-- 音乐选择对话框 -->
+    <div class="music-selector-dialog" id="musicSelectorDialog">
+        <div class="music-selector-content">
+            <div class="music-selector-header">
+                <h2 class="music-selector-title">选择音乐</h2>
+                <button class="music-selector-close" id="musicSelectorClose">×</button>
+            </div>
+            <ul class="music-selector-list" id="musicSelectorList">
+                <!-- 音乐列表将通过JavaScript动态生成 -->
+            </ul>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
     <script src="script.js"></script>
-    
+
     <!-- Service Worker 注册 -->
     <script>
       // 只有在 http:// 或 https:// 协议下才注册 ServiceWorker

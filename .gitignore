@@ -101,3 +101,17 @@ Thumbs.db
 
 # Trae AI documents
 .trae/
+
+# 配置文件
+app/src/main/assets/config.js
+app/src/main/res/xml/network_security_config.xml
+app/src/main/res/values/strings.xml
+
+# 后端目录
+backend/
+
+# 监控页面
+监控.html
+
+# 后端设置文档
+BACKEND_SETUP.md

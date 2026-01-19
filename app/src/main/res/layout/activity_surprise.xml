@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:fillViewport="true"
+    android:padding="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <!-- 标题文本 -->
+    <TextView
+        android:id="@+id/surpriseTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="@string/surprise_title"
+        android:textColor="@android:color/white"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:shadowColor="@android:color/black"
+        android:shadowRadius="4" />
+
+    <!-- 思念内容 - 逐行显示 -->
+    <RelativeLayout
+        android:id="@+id/surpriseContentContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/surpriseTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/contentLine1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/surprise_content_line1"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="2" />
+
+        <TextView
+            android:id="@+id/contentLine2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentLine1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/surprise_content_line2"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="2" />
+
+        <TextView
+            android:id="@+id/contentLine3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentLine2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/surprise_content_line3"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="2" />
+
+        <TextView
+            android:id="@+id/contentLine4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentLine3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="@string/surprise_content_line4"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="2" />
+
+        <TextView
+            android:id="@+id/contentLine5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentLine4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/surprise_content_line5"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="2" />
+
+        <TextView
+            android:id="@+id/contentLine6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentLine5"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="@string/surprise_content_line6"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="2" />
+
+        <TextView
+            android:id="@+id/contentLine7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentLine6"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/surprise_content_line7"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="2" />
+
+        <TextView
+            android:id="@+id/contentLine8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentLine7"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/surprise_content_line8"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:shadowColor="@android:color/black"
+            android:shadowRadius="2" />
+
+    </RelativeLayout>
+
+
+
+    <!-- 使用LinearLayout垂直排列按钮，确保更好的适配 -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/surpriseContentContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingHorizontal="20dp">
+
+        <Button
+            android:id="@+id/uploadImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxWidth="320dp"
+            android:minHeight="56dp"
+            android:backgroundTint="#FFB6C1"
+            android:elevation="8dp"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="16dp"
+            android:stateListAnimator="@anim/button_elevation"
+            android:text="@string/surprise_button_text"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/evaluationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxWidth="320dp"
+            android:minHeight="56dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#FFB6C1"
+            android:elevation="8dp"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="16dp"
+            android:stateListAnimator="@anim/button_elevation"
+            android:text="@string/evaluation_button_text"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+            
+        <Button
+            android:id="@+id/contactButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxWidth="320dp"
+            android:minHeight="56dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#FFB6C1"
+            android:elevation="8dp"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="16dp"
+            android:stateListAnimator="@anim/button_elevation"
+            android:text="联系我！"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
